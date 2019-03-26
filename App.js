@@ -1,8 +1,24 @@
 import React from 'react';
-import {Platform,Dimensions, StyleSheet, Text, View, StatusBar,TextInput } from 'react-native';
+import {
+  Platform, 
+  Dimensions, 
+  StyleSheet, 
+  Text, 
+  View, 
+  StatusBar,
+  TextInput,
+  ScrollView
+} from 'react-native';
+
+import ToDo from "./ToDo"
+
 const { height, width } = Dimensions.get("window")
 export default class App extends React.Component {
+  state = {
+    newToDo : "" 
+  }
   render() {
+    const { newToDo } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" >
@@ -10,11 +26,30 @@ export default class App extends React.Component {
         </StatusBar>
         <Text style={styles.title}>ToDoList</Text>
         <View style={styles.card} >
-          <TextInput style= {styles.input} />
+          <TextInput 
+          style= {styles.input} 
+          placeholder = {"New To Do"} 
+          value={newToDo} 
+          onChangeText={this._controllNewTodo} 
+          placeholderTextColor={"#999"}
+          returnKeyType = {"done"} />
+          <ScrollView>
+            <ToDo/>
+            <ToDo/>
+            <ToDo/>
+            <ToDo/>
+            <ToDo/>
+
+          </ScrollView>
         </View>
       </View>
     );
   }
+  _controllNewTodo = text => {
+    this.setState({
+      newToDo : text
+    });
+  };
 }
 
 const styles = StyleSheet.create({
@@ -33,8 +68,10 @@ const styles = StyleSheet.create({
 
   },
   input : {
-    color: "white",
     fontSize: 20,
+    padding : 20,
+    borderBottomColor: "#bbb",
+    borderBottomWidth: 1
   },
   card : {
     backgroundColor : "white",
